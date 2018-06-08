@@ -16,28 +16,39 @@ import android.widget.TextView;
 import com.mrk.mrkrecorder.MediaRecorderActivity;
 import com.mrk.mrkrecorder.R;
 
-
-/**
- * Created by jian on 2016/7/21 15:52
- * mabeijianxi@gmail.com
- */
 public class SendSmallVideoActivity extends AppCompatActivity implements View.OnClickListener {
-
     private String videoUri;
+    private String videoScreenshot;
     private TextView tv_send;
     private TextView tv_cancel;
-    private String videoScreenshot;
     private ImageView iv_video_screenshot;
     private EditText et_send_content;
-
     private AlertDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.smallvideo_text_edit_activity);
+
         initView();
         initData();
         initEvent();
+    }
+
+    private void initView() {
+        tv_cancel = (TextView) findViewById(R.id.tv_cancel);
+        tv_send = (TextView) findViewById(R.id.tv_send);
+        et_send_content = (EditText) findViewById(R.id.et_send_content);
+        iv_video_screenshot = (ImageView) findViewById(R.id.iv_video_screenshot);
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        videoUri = intent.getStringExtra(MediaRecorderActivity.VIDEO_URI);
+        videoScreenshot = intent.getStringExtra(MediaRecorderActivity.VIDEO_SCREENSHOT);
+        Bitmap bitmap = BitmapFactory.decodeFile(videoScreenshot);
+        iv_video_screenshot.setImageBitmap(bitmap);
+        et_send_content.setHint("您视频地址为:" + videoUri);
     }
 
     private void initEvent() {
@@ -45,27 +56,6 @@ public class SendSmallVideoActivity extends AppCompatActivity implements View.On
         tv_send.setOnClickListener(this);
         et_send_content.setOnClickListener(this);
         iv_video_screenshot.setOnClickListener(this);
-    }
-
-
-    private void initData() {
-        Intent intent = getIntent();
-        videoUri = intent.getStringExtra(MediaRecorderActivity.VIDEO_URI);
-        videoScreenshot = intent.getStringExtra(MediaRecorderActivity.VIDEO_SCREENSHOT);
-        Bitmap bitmap = BitmapFactory.decodeFile( videoScreenshot);
-        iv_video_screenshot.setImageBitmap(bitmap);
-        et_send_content.setHint("您视频地址为:"+videoUri);
-    }
-
-    private void initView() {
-        setContentView(R.layout.smallvideo_text_edit_activity);
-
-        tv_cancel = (TextView) findViewById(R.id.tv_cancel);
-        tv_send = (TextView) findViewById(R.id.tv_send);
-        et_send_content = (EditText) findViewById(R.id.et_send_content);
-        iv_video_screenshot = (ImageView) findViewById(R.id.iv_video_screenshot);
-
-
     }
 
     @Override
@@ -82,7 +72,6 @@ public class SendSmallVideoActivity extends AppCompatActivity implements View.On
                 break;
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -102,14 +91,12 @@ public class SendSmallVideoActivity extends AppCompatActivity implements View.On
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     finish();
-
-//                                    FileUtils.deleteDir(getIntent().getStringExtra(MediaRecorderActivity.OUTPUT_DIRECTORY));
-
                                 }
-
                             })
                     .setPositiveButton(R.string.record_camera_cancel_dialog_no,
-                            null).setCancelable(false).show();
+                            null)
+                    .setCancelable(false)
+                    .show();
         } else {
             dialog.show();
         }
