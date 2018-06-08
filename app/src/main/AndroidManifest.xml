@@ -29,7 +29,6 @@
 
         <activity android:name=".MediaRecorderActivity" />
         <activity android:name=".view.SendSmallVideoActivity" />
-        <activity android:name=".view.VideoPlayerActivity" />
 
     </application>
 

@@ -67,8 +67,8 @@ public class SendSmallVideoActivity extends AppCompatActivity implements View.On
             case R.id.tv_send:
                 break;
             case R.id.iv_video_screenshot:
-                startActivity(new Intent(this, VideoPlayerActivity.class).putExtra(
-                        "path", videoUri));
+//                startActivity(new Intent(this, VideoPlayerActivity.class).putExtra(
+//                        "path", videoUri));
                 break;
         }
     }
